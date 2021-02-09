@@ -7,7 +7,7 @@ namespace Entities.Concrete
 {
    public  class CarColour:IEntity
     {
-        public int ColourId { get; set; }
+        public int Id { get; set; }
         public string  ColourName { get; set; }
     }
 }
