@@ -1,6 +1,7 @@
 ﻿using Business.Concrete;
 using DataAccess.Concrete;
 using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 using System;
 
 namespace ConsoleUI
@@ -10,10 +11,33 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             //  InMemoryDal();
+            //DailyPriceFilter();
+            // AddedCar();
+
+            //GetIdFilter();
+            CarManager carManager = new CarManager(new EfCarDal());
+        
+            foreach (var car in carManager.GetCarDetails())
+            {
+                Console.WriteLine($"{car.Id} {car.CarName} {car.ColourName} {car.DailyPrice}{car.Description}" );
+            }
+
+
+
+        }
+
+        private static void AddedCar()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+            carManager.Add(new Car { BrandId = 2006, ColourId = 1003, DailyPrice = 290, Description = "Manuel Benzinli", ModelYear = 2016 });
+        }
+
+        private static void DailyPriceFilter()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
             foreach (var car in carManager.GetDailyPrice(50.200))
             {
-
+                Console.WriteLine(car.DailyPrice);
             }
         }
 
@@ -26,6 +50,14 @@ namespace ConsoleUI
                 Console.WriteLine(car.Description);
             }
             Console.WriteLine("Hello World!");
+        }
+        private static void GetIdFilter()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+            foreach (var car in carManager.GetId(1005))
+            {
+                Console.WriteLine(car.Description);
+            }
         }
     }
 }
