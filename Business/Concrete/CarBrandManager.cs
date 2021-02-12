@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -17,46 +19,48 @@ namespace Business.Concrete
             _carBrandDal = carBrandDal;
         }
 
-        public void Add(CarBrand carBrand)
+        public IResult Add(CarBrand carBrand)
         {
             if (carBrand.BrandName.Length == 0)
             {
-                Console.WriteLine("Araba adı en az iki karakter olmak zorundadır. lütfen tekrar ad bilgisi giriniz.");
+                return new ErrorResult(CarBrandMessages.CarBrandDidNotAdd);
             }
             else
             {
                       _carBrandDal.Add(carBrand);
-                Console.WriteLine("Araba bilgisi eklendi.");
+                return new SuccessResult(CarBrandMessages.CarBrandAdded);
             }
         }
 
-        public void Delete(CarBrand carBrand)
+        public IResult Delete(CarBrand carBrand)
         {
-            _carBrandDal.Delete(carBrand);
-            Console.WriteLine("Araba bilgisi silme işlemi başarılı");
-        }
+        _carBrandDal.Delete(carBrand);
+         return new SuccessResult(CarBrandMessages.CarBrandDeleted);
+         }
 
-        public List<CarBrand> GetAll()
+        public IDataResult<List<CarBrand>> GetAll()
         {
-            return _carBrandDal.GetAll();
+            return new SuccessDataResult<List<CarBrand>>(_carBrandDal.GetAll(),CarBrandMessages.CarBrandListed);
            
         }
 
-        public List<CarBrand> GetById(int id)
+        public IDataResult< List<CarBrand>> GetById(int id)
         {
-            return _carBrandDal.GetAll(c => c.Id == id);
-                }
+            return new SuccessDataResult<List<CarBrand>> (_carBrandDal.GetAll(c => c.Id == id),CarBrandMessages.CarBrandListed)  ;
+              
+          }
 
-        public void Update(CarBrand carBrand)
+        public IResult Update(CarBrand carBrand)
         {
             if (carBrand.BrandName.Length == 2)
             {
                 _carBrandDal.Update(carBrand);
-                Console.WriteLine("Araba bilgisi güncellendi");
+                return new SuccessResult(CarBrandMessages.CarBrandUpdated);
             }
             else
             {
-                Console.WriteLine("Araba adı en az iki karakter olmak zorundadır. lütfen tekrar ad bilgisi giriniz.");
+                return new ErrorResult(CarBrandMessages.CarBrandDidNotUpdate);
+
             }
 
         }

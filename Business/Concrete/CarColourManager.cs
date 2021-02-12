@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -9,36 +11,48 @@ namespace Business.Concrete
 {
     public class CarColourManager : ICarColourService
     {
-      ICarColourDal _carColourDal;
+        ICarColourDal _carColourDal;
 
         public CarColourManager(ICarColourDal carColourDal)
         {
             _carColourDal = carColourDal;
         }
 
-        public void Add(CarColour carColour)
+        public IResult Add(CarColour carColour)
         {
-            _carColourDal.Add(carColour);
+            if (carColour.ColourName.Length == 0)
+            {
+                return new SuccessResult(CarColourMessages.CarColourDidNotAdd);
+            }
+            else
+            {
+                _carColourDal.Add(carColour);
+                return new SuccessResult(CarColourMessages.CarColourAdded);
+            }
+        
         }
 
-        public void Delete(CarColour carColour)
+        public IResult Delete(CarColour carColour)
         {
             _carColourDal.Delete(carColour);
+            return new SuccessResult(CarColourMessages.CarColourDeleted);
         }
 
-        public List<CarColour> GetAll()
+        public IDataResult<List<CarColour>> GetAll()
         {
-            return _carColourDal.GetAll();
+            return new SuccessDataResult<List<CarColour>>(_carColourDal.GetAll(),CarColourMessages.CarColourListed);
         }
 
-        public List<CarColour> GetById(int id)
+        public IDataResult<List<CarColour>> GetById(int id)
         {
-            return _carColourDal.GetAll(p => p.Id == id);
-           }
+            return new SuccessDataResult<List<CarColour>>(_carColourDal.GetAll(c=>c.Id==id),CarColourMessages.CarColourListed);
 
-        public void Update(CarColour carColour)
+        }
+
+        public IResult Update(CarColour carColour)
         {
-            _carColourDal.Delete(carColour);
+            _carColourDal.Update(carColour);
+            return new SuccessResult(CarColourMessages.CarColourUpdated);
         }
     }
 }
