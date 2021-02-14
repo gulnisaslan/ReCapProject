@@ -12,5 +12,7 @@ namespace Core.Utilities.Results
         public SuccessDataResult(T data) : base(data, true)
         {
         }
+
+      
     }
 }

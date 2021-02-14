@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Core.Entities
 {
-   public  interface IEntityRepository
+   public  interface IEntity
     {
     }
 }
