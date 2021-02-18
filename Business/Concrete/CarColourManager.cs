@@ -38,7 +38,7 @@ namespace Business.Concrete
             return new SuccessResult(CarColourMessages.CarColourDeleted);
         }
 
-        public IDataResult<List<CarColour>> GetAll()
+        public IDataResult<List<CarColour>>GetAll()
         {
             return new SuccessDataResult<List<CarColour>>(_carColourDal.GetAll(),CarColourMessages.CarColourListed);
         }
