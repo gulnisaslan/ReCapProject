@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -17,7 +19,7 @@ namespace Business.Concrete
         {
             _carColourDal = carColourDal;
         }
-
+        [ValidationAspect(typeof(CarColourValidator))]
         public IResult Add(CarColour carColour)
         {
             if (carColour.ColourName.Length == 0)
@@ -48,7 +50,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarColour>>(_carColourDal.GetAll(c=>c.Id==id),CarColourMessages.CarColourListed);
 
         }
-
+        [ValidationAspect(typeof(CarColourValidator))]
         public IResult Update(CarColour carColour)
         {
             _carColourDal.Update(carColour);

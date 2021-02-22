@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,12 +20,14 @@ namespace Business.Concrete
         {
             _rentalDal = rentalDal;
         }
-
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-           _rentalDal.Add(rental);
+            _rentalDal.Add(rental);
             return new SuccessResult(RentalMessages.RentalAdded);
-         }
+        }
+
+     
 
         public IResult Delete(Rental rental)
         {
@@ -33,29 +37,30 @@ namespace Business.Concrete
 
         public IDataResult<List<Rental>> GetAll()
         {
-           
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(),RentalMessages.RentalListed);
+
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), RentalMessages.RentalListed);
 
         }
 
         public IDataResult<List<Rental>> GetById(int id)
         {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r=>r.Id==id), RentalMessages.RentalListed);
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r => r.Id == id), RentalMessages.RentalListed);
         }
 
         public IDataResult<List<RentDetailDTOs>> GetRentDetailDTO()
         {
             return new SuccessDataResult<List<RentDetailDTOs>>(_rentalDal.RentDetails());
         }
-
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Update(Rental rental)
         {
-         
-                _rentalDal.Update(rental);
-                return new SuccessResult(RentalMessages.RentalUpdated);
-         
-                
-           
+
+            _rentalDal.Update(rental);
+            return new SuccessResult(RentalMessages.RentalUpdated);
+
+
+
         }
+      
     }
 }

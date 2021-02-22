@@ -32,28 +32,10 @@ namespace DataAccess.Concrete.EntityFramework
                                 CarName=b.BrandName,
                                UserName=us.FirstName+" "+us.LastName,
                                RentDate=r.RentDate,
-                                ReturnDate=r.ReturnDate
+                                ReturnDate= (DateTime)r.ReturnDate
                                };
                 return result.ToList();
             }
         }
     }
 }
-//using (CarsDatabaseContext context = new CarsDatabaseContext())
-//{
-//    var result = from c in context.Cars
-//                 join cb in context.CarBrands
-//                 on c.ColourId equals cb.Id
-//                 join cc in context.CarColours
-//                 on c.ColourId equals cc.Id
-
-//                 select new CarDetailDTO
-//                 {
-//                     Id = c.Id,
-//                     CarName = cb.BrandName,
-//                     ColourName = cc.ColourName,
-//                     DailyPrice = c.DailyPrice,
-//                     Description = c.Description
-//                 };
-//    return result.ToList();
-//}

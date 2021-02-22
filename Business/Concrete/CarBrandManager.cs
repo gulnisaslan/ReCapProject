@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,7 +20,7 @@ namespace Business.Concrete
         {
             _carBrandDal = carBrandDal;
         }
-
+        [ValidationAspect(typeof(CarBrandValidator))]
         public IResult Add(CarBrand carBrand)
         {
             if (carBrand.BrandName.Length == 0)
