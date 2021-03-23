@@ -13,7 +13,15 @@ namespace Core.Utilities.Results
         public ErrorDataResult(T data) : base(data, false)
         {
         }
+        public ErrorDataResult(string message) : base(default, false)
+        {
 
-     
+        }
+        public ErrorDataResult() : base(default, false)
+        {
+
+        }
+
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Core.Entities.Concrete;
 using DataAccess.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
@@ -10,10 +11,10 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            Controller();
-            UserAdded();
-            CustomerAdded();
-            RentalAdded();
+            Controller2();
+            
+          //  CustomerAdded();
+          // RentalAdded();
 
         }
 
@@ -35,8 +36,44 @@ namespace ConsoleUI
                 Console.WriteLine(result.Message);
             }
         }
+        private static void Controller2()
+        {
+            CarBrandManager carBrandManager = new CarBrandManager(new EfCarBrandDal());
+            var result = carBrandManager.GetAll();
+            //  var result = carManager.GetId(1005);
 
-        private static void RentalAdded()
+            if (result.Success == true)
+            {
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.Id+" "+car.BrandName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+        }
+        private static void Controller3()
+        {
+            CarBrandManager carBrandManager = new CarBrandManager(new EfCarBrandDal());
+            var result = carBrandManager.GetAll();
+            //  var result = carManager.GetId(1005);
+
+            if (result.Success == true)
+            {
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.BrandName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+        }
+
+                private static void RentalAdded()
         {
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
@@ -54,15 +91,15 @@ namespace ConsoleUI
             customerManager.Add(new Customer { UserId = 4, CustomerName = "MuhammetHaşim" });
             customerManager.Add(new Customer { UserId = 3, CustomerName = "SemihSercan " });
         }
-         private static void UserAdded()
-        {
-            UserManager userManager = new UserManager(new EfUserDal());
-            userManager.Add(new User { FirstName = "Gülnisa", LastName = "Aslan", Email = "gulnisa@gulnisa.com", PassWord = "123456789" });
-            userManager.Add(new User { FirstName = "Ercan", LastName = "Aslan", Email = "ercan@gulnisa.com", PassWord = "523456789" });
-            userManager.Add(new User { FirstName = "Semih Sercan", LastName = "Aslan", Email = "semihsercan@gulnisa.com", PassWord = "123456789" });
-            userManager.Add(new User { FirstName = "Muhammet Haşim", LastName = "Aslan", Email = "muhammet_hasim@gulnisa.com", PassWord = "123444789" });
-            userManager.Add(new User { FirstName = "Gülten", LastName = "Aslan", Email = "gulten@gulnisa.com", PassWord = "153456789" });
-        }
+        // private static void UserAdded()
+        //{
+        //    UserManager userManager = new UserManager(new EfUserDal());
+        //    userManager.Add(new User { FirstName = "Gülnisa", LastName = "Aslan", Email = "gulnisa@gulnisa.com", PassWord = "123456789" });
+        //    userManager.Add(new User { FirstName = "Ercan", LastName = "Aslan", Email = "ercan@gulnisa.com", PassWord = "523456789" });
+        //    userManager.Add(new User { FirstName = "Semih Sercan", LastName = "Aslan", Email = "semihsercan@gulnisa.com", PassWord = "123456789" });
+        //    userManager.Add(new User { FirstName = "Muhammet Haşim", LastName = "Aslan", Email = "muhammet_hasim@gulnisa.com", PassWord = "123444789" });
+        //    userManager.Add(new User { FirstName = "Gülten", LastName = "Aslan", Email = "gulten@gulnisa.com", PassWord = "153456789" });
+        //}
     }
 }
      
