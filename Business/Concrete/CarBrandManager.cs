@@ -22,20 +22,14 @@ namespace Business.Concrete
         {
             _carBrandDal = carBrandDal;
         }
-        [SecuredOperation("")]
+        [SecuredOperation("carbrand,admin")]
         [ValidationAspect(typeof(CarBrandValidator))]
         [CahceAspect(10)]
         public IResult Add(CarBrand carBrand)
-        {
-            if (carBrand.BrandName.Length == 0)
-            {
-                return new ErrorResult(CarBrandMessages.CarBrandDidNotAdd);
-            }
-            else
-            {
-                      _carBrandDal.Add(carBrand);
+        { 
+              _carBrandDal.Add(carBrand);
                 return new SuccessResult(CarBrandMessages.CarBrandAdded);
-            }
+           
         }
 
         public IResult Delete(CarBrand carBrand)
@@ -58,17 +52,10 @@ namespace Business.Concrete
 
         public IResult Update(CarBrand carBrand)
         {
-            if (carBrand.BrandName.Length == 2)
-            {
-                _carBrandDal.Update(carBrand);
-                return new SuccessResult(CarBrandMessages.CarBrandUpdated);
-            }
-            else
-            {
-                return new ErrorResult(CarBrandMessages.CarBrandDidNotUpdate);
-
-            }
+       return new SuccessResult(CarBrandMessages.CarBrandUpdated);
+           }
 
         }
+    
     }
-}
+

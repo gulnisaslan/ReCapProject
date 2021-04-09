@@ -41,14 +41,20 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), CarMessages.CarListed);
         }
 
+        public IDataResult<List<Car>> GetBrandId(int brandId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(bi => bi.BrandId == brandId));
+        }
+
         public IDataResult<List<CarDetailDTO>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDTO>>(_carDal.GetCarDetails(), CarMessages.CarListed);
         }
 
-        public IEnumerable<object> GetDailyPrice(double v)
+ 
+        public IDataResult<List<Car>> GetColourId(int colourId)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(co => co.ColourId == colourId));
         }
 
         public IDataResult<List<Car>> GetDailyPrice(decimal min, decimal max)

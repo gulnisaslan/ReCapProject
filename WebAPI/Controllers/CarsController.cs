@@ -14,7 +14,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarsController : ControllerBase
     {
-        ICarService _carService;
+      private readonly  ICarService _carService;
 
         public CarsController(ICarService carService)
         {
@@ -81,6 +81,29 @@ namespace WebAPI.Controllers
             }
             return BadRequest();
         }
+        [HttpGet("getbrand")]
+        public IActionResult GetBrand(int brandId)
+        {
+            var result = _carService.GetBrandId(brandId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("getcolour")]
+        public IActionResult GetColour(int colourId)
+        {
+            var result = _carService.GetBrandId(colourId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
+        }
+
+
 
 
 

@@ -29,6 +29,10 @@ namespace Business.Concrete
         [CacheRemoveAspect("IBrandService.Get")]
         public IResult Add(Rental rental)
         {
+            if (rental.ReturnDate==null)
+            {
+                return new ErrorResult(RentalMessages.RentalDidNotAdd);
+            }
             _rentalDal.Add(rental);
             return new SuccessResult(RentalMessages.RentalAdded);
         }
@@ -67,8 +71,7 @@ namespace Business.Concrete
         }
     
         [ValidationAspect(typeof(RentalValidator))]
-        [SecuredOperation("brand.update,admin")]
-        [ValidationAspect(typeof(RentalValidator))]
+   
         [CacheRemoveAspect("IBrandService.Get")]
         public IResult Update(Rental rental)
         {

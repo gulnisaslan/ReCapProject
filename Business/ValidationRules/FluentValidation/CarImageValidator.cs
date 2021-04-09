@@ -12,7 +12,7 @@ namespace Business.ValidationRules.FluentValidation
         {
             RuleFor(ci => ci.CarId).NotEmpty();
             RuleFor(ci => ci.ImagePath).NotEmpty();
-            RuleFor(ci => ci.Date).NotEmpty();
+            RuleFor(ci => ci.Date_).NotEmpty();
         }
     }
 }

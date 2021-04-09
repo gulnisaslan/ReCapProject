@@ -13,5 +13,7 @@ namespace Business.Constants
         public static string CarImageUpdate { get; internal set; }
         public static string ImageCountError { get; internal set; }
         public static string ImageCountSuccess { get; internal set; }
+        public static string ImageLimitExpiredForCar { get; internal set; }
+        public static string ValidImageFileTypes { get; internal set; }
     }
 }

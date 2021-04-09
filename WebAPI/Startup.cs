@@ -14,11 +14,13 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,8 +39,11 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             
+
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+            services.AddCors();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -54,7 +59,7 @@ namespace WebAPI
                  });
             services.AddDependecyResolvers(new ICoreModule[]
            {
-                new CoreModule(),
+                new CoreModule()
            });
 
         }
@@ -65,16 +70,21 @@ namespace WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-
+            }    
             app.UseHttpsRedirection();
-
-          
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200/").AllowAnyHeader().AllowAnyOrigin());
             app.UseRouting();
-
+            app.UseStaticFiles();
+            
             app.UseAuthentication();
             app.UseAuthorization();
-
+           
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot")),
+            //    RequestPath = "/images"
+            //});
+          
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -22,6 +22,8 @@ namespace DataAccess.Concrete.EntityFramework
                              on c.ColourId equals cb.Id
                              join cc in context.CarColours
                              on c.ColourId equals cc.Id
+                             join ci in context.CarImages
+                             on c.Id equals ci.Id
 
                              select new CarDetailDTO
                              {
@@ -29,7 +31,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  CarName = cb.BrandName,
                                  ColourName = cc.ColourName,
                                  DailyPrice = c.DailyPrice,
-                                 Description = c.Description
+                                 Description = c.Description_,
+                                  ImagePath = ci.ImagePath
                              };
                 return result.ToList();
             }

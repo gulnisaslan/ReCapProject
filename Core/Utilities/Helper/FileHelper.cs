@@ -9,67 +9,42 @@ namespace Core.Utilities
 {
     public class FileHelper
     {
-       public static string Add(IFormFile file)
+        private static string _directory = Directory.GetCurrentDirectory() + "\\wwwroot";
+        private static string folderName = "\\images\\";
+        public static string Add(IFormFile file)
         {
-            var result = newPath(file);
-            try
+            string extension = Path.GetExtension(file.FileName).ToUpper();
+            string newFile = Guid.NewGuid().ToString("N") + extension;
+            if (!Directory.Exists(_directory+folderName))
             {
-                var sourcepath = Path.GetTempFileName();
-                using (var stream = new FileStream(sourcepath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
-                File.Move(sourcepath, result.newPath);
-            }
-            catch (Exception exception)
+                Directory.CreateDirectory(_directory + folderName);
+           }
+            using (FileStream fileStream =File.Create(_directory+folderName+newFile))
             {
-                return exception.Message;
-                
+                file.CopyTo(fileStream);
+                fileStream.Flush();
             }
-            return result.Path2;
+            return (folderName + newFile).Replace("\\", "/");
+        }
+        public static string Update(IFormFile file, string OldImagePath)
+        {
+            Delete(OldImagePath);
+            return Add(file);
+          }
+        public static void Delete(string ImagePath)
+        {
+            if (File.Exists(_directory+ImagePath.Replace("/","\\"))&&Path.GetFileName(ImagePath)!="default.png")
+            {
+                File.Delete(_directory + ImagePath.Replace("/", "\\"));
+            }
         }
 
-        public static string Update (string sourcePath,IFormFile file)
-        {
-            var result = newPath(file);
-            try
-            {
-                using (var stream = new FileStream(result.newPath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
-                File.Delete(sourcePath);
-            }
-            catch (Exception exception)
-            {
-                return exception.Message;
-            }
-                return result.Path2;
-         }
-        public static IResult Delete(string path)
-        {
-            try
-            {
-                File.Delete(path);
-            }
-            catch (Exception exception )
-            {
-
-                return new ErrorResult(exception.Message);
-            }
-            return new SuccessResult();
-        }
-        public static (string newPath,string Path2) newPath(IFormFile file)
-        {
-            FileInfo ff = new FileInfo(file.FileName);
-            string fileExtension = ff.Extension;
-            var creatingUniqueFileName = Guid.NewGuid().ToString("N") + fileExtension;
-            string result = $@"{Environment.CurrentDirectory + @"\wwwroot\Images"}\{creatingUniqueFileName}";
-            return (result, $"\\Images\\{creatingUniqueFileName}");
-            
-        }
-    }
+       
+     
+      }
 }
+
+
 
 
 
